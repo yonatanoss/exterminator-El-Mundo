@@ -1,10 +1,10 @@
-extends Area2D
+extends KinematicBody2D
 
 export var speed = 400  # How fast the player will move (pixels/sec).
-var screen_size  # Size of the game window.
 var isAttacking = false
+var velocity
 #player status
-var health
+var health = 70
 var shield
 var level
 #resources
@@ -14,37 +14,31 @@ var wood
 #tools
 var picaxe_lvl
 var weapon_lvl
-
-func _ready():
-	screen_size = get_viewport_rect().size
 	
 func _process(delta):
-	if isAttacking == false:
-		player_walk(delta)
 	player_attack()
 	
+func _physics_process(delta):
+	player_walk()
+	move_and_slide(velocity)
 	
-func player_walk(delta):
-	#var mouse_position = get_local_mouse_position()
-	#rotation += mouse_position.angle()
-	var velocity = Vector2()  # The player's movement vector.
-	if Input.is_action_pressed("ui_right"):
+func player_walk():
+	velocity = Vector2()
+	if Input.is_action_pressed('ui_right'):
 		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed('ui_left'):
 		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed('ui_down'):
 		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed('ui_up'):
 		velocity.y -= 1
+	velocity = velocity.normalized() * speed
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite.play("walk")
-	else:
+		if isAttacking == false:
+			$AnimatedSprite.play("walk")
+	elif isAttacking == false:
 		$AnimatedSprite.stop()
-
-	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
 	
 func player_attack():
 	if Input.is_action_pressed("attack"):
@@ -54,3 +48,4 @@ func player_attack():
 func _on_AnimatedSprite_animation_finished():
 	isAttacking = false
 	$AnimatedSprite.stop()
+
