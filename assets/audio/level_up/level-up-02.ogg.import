@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/level-up-02.ogg-f0d958d54f8fdc5caf1d5f9d4e2e9764.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/level_up/level-up-02.ogg"
+dest_files=[ "res://.import/level-up-02.ogg-f0d958d54f8fdc5caf1d5f9d4e2e9764.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

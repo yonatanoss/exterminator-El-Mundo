@@ -10,14 +10,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
-"loop": true,
-"name": "walk",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "walk",
 "speed": 10.0
 } ]
 
@@ -25,7 +25,8 @@ animations = [ {
 radius = 22.1534
 height = 39.3337
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( -14.9226, -6.68174 )
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -33,11 +34,21 @@ position = Vector2( 0.420448, 0 )
 scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 1 )
 animation = "attack"
-frame = 3
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.89202, -9.24986 )
 shape = SubResource( 2 )
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 0, 16 )
+rotation = 1.5708
+scale = Vector2( 15, 1.5 )
+enabled = true
+cast_to = Vector2( 0, 24 )
+
+[node name="ActionTimer" type="Timer" parent="."]
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="timeout" from="ActionTimer" to="." method="_on_ActionTimer_timeout"]
